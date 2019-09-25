@@ -1,0 +1,42 @@
+<!DOCTYPE htm>
+<html lang="en">
+  <head>
+    <meta charset="utf8" />
+    <title>Canvas Test</title>
+    <style>
+      body { font: normal 16px/24px Helvetica; color: #333; }
+      h1 { font-size: 32px; line-height: 48px; }
+      #main { max-width: 860px; margin: 20px auto; padding: 0 20px; }
+    </style>
+  </head>
+  <body>
+    <div id="main">
+      <h1>Large canvas drawImage Bug</h1>
+      <p>
+        In this test, a single small image (orange rectangle 1440x700px) is drawn onto a very large canvas element (2880x??px). When the canvas is large enough the drawImage function fails leading to a blank canvas and no errors in the browser console, but Chrome itself generates the following errors:
+      </p>
+      <code><pre style="white-space:pre-line">[5764:775:0925/172224.826100:ERROR:shared_image_backing_factory_gl_texture.cc(812)] CreateSharedImage: invalid size
+[5764:775:0925/172224.826164:ERROR:shared_image_factory.cc(344)] CreateSharedImage: could not create backing.
+[5764:775:0925/172224.826201:ERROR:shared_image_stub.cc(104)] SharedImageStub: Unable to create shared image</pre></code>
+      <p>
+        I am able to recreate this on Mac OSX 10.14.6 with Chrome Version 77.0.3865.90. For me, it breaks between 16000–17000px tall. Test it out below!
+      </p>
+
+      <form id="form" class="col" style="width: 100%">
+        <label for="canvas-height">Draw a single orange rectangle in the top left of a canvas with a width of <strong>2880px</strong> and height of</label>
+        <input style="font-weight: bold; width: 60px;" id="canvas-height" type="number" value="18000" />
+        <strong>px &nbsp;</strong>
+        <button type="submit">Generate</button>
+        <span id="indicator" style="display:none; color: green;">generating...</span>
+      </form>
+
+      <div id="headers">
+        <span style="color: #999">Click generate above to run test.</span>
+      </div>
+
+      <div id="content"></div>
+
+    </div>
+    <script src="index.js"></script>
+  </body>
+</html>
